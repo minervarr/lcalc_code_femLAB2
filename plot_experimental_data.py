@@ -11,15 +11,19 @@ import matplotlib.pyplot as plt
 # Configurar estilo de gráficas
 plt.style.use('seaborn-v0_8-darkgrid')
 
-# Leer datos del archivo
-# Las primeras 7 líneas son encabezados, los datos comienzan en la línea 8
-# El archivo contiene múltiples series, leemos solo las primeras 5000 filas de datos
-data = np.loadtxt('lab_data.txt', skiprows=7, max_rows=5001, delimiter='\t')
+# Leer datos del archivo datafinal.txt
+data = np.loadtxt('datafinal.txt', skiprows=7, delimiter='\t')
 
 # Extraer columnas
-t_exp = data[:, 0]      # Tiempo en segundos
-B_exp = data[:, 1]      # Campo magnético en mT
-I_exp = data[:, 2]      # Corriente en A
+t_all = data[:, 0]      # Tiempo en segundos
+B_all = data[:, 1]      # Campo magnético en mT
+I_all = data[:, 2]      # Corriente en A
+
+# Filtrar datos entre 3 y 4 segundos
+mask = (t_all >= 3.0) & (t_all <= 4.0)
+t_exp = t_all[mask]
+B_exp = B_all[mask]
+I_exp = I_all[mask]
 
 # Crear figura con dos subgráficas
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
