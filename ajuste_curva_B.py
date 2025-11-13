@@ -12,11 +12,17 @@ from scipy.optimize import curve_fit
 
 # Leer datos del archivo
 print("Cargando datos experimentales...")
-data = np.loadtxt('lab_data.txt', skiprows=7, max_rows=5001, delimiter='\t')
+data = np.loadtxt('datafinal.txt', skiprows=7, delimiter='\t')
 
 # Extraer columnas
-t_exp = data[:, 0]      # Tiempo en segundos
-B_exp = data[:, 1]      # Campo magnético en mT
+t_all = data[:, 0]      # Tiempo en segundos
+B_all = data[:, 1]      # Campo magnético en mT
+
+# Filtrar datos entre 3 y 4 segundos
+print("Filtrando datos entre 3.0 y 4.0 segundos...")
+mask = (t_all >= 3.0) & (t_all <= 4.0)
+t_exp = t_all[mask]
+B_exp = B_all[mask]
 
 # Definir la función de ajuste: B_fit = A*sin(B*t + C) + D
 def modelo_senoidal(t, A, B, C, D):

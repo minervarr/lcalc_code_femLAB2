@@ -41,24 +41,32 @@ print("="*70)
 # ============================================================================
 
 print("\nCargando datos experimentales...")
-data = np.loadtxt('lab_data.txt', skiprows=7, max_rows=5001, delimiter='\t')
+data = np.loadtxt('datafinal.txt', skiprows=7, delimiter='\t')
 
 # Extraer columnas
-t_exp = data[:, 0]      # Tiempo en segundos
-B_exp = data[:, 1]      # Campo magnético experimental en mT
-I_exp = data[:, 2]      # Corriente experimental en A
+t_all = data[:, 0]      # Tiempo en segundos
+B_all = data[:, 1]      # Campo magnético experimental en mT
+I_all = data[:, 2]      # Corriente experimental en A
 
-print(f"✓ Datos cargados: {len(t_exp)} puntos")
+# Filtrar datos entre 3 y 4 segundos
+print("Filtrando datos entre 3.0 y 4.0 segundos...")
+mask = (t_all >= 3.0) & (t_all <= 4.0)
+t_exp = t_all[mask]
+B_exp = B_all[mask]
+I_exp = I_all[mask]
+
+print(f"✓ Datos cargados y filtrados: {len(t_exp)} puntos en rango [3.0, 4.0] s")
 
 # ============================================================================
 # PARÁMETROS DEL AJUSTE B_fit(t) = A·sin(B·t + C) + D
 # ============================================================================
 
 # Parámetros obtenidos del ajuste de curva (ajuste_curva_B.py)
-A_fit = -0.281534      # Amplitud en mT
-B_fit = 65.881770      # Frecuencia angular ω en rad/s
-C_fit = -1.729388      # Fase inicial en rad
-D_fit = 0.198389       # Offset en mT
+# Datos filtrados entre 3.0 y 4.0 segundos
+A_fit = 0.974862       # Amplitud en mT
+B_fit = 54.314376      # Frecuencia angular ω en rad/s
+C_fit = 6.278328       # Fase inicial en rad
+D_fit = 0.201169       # Offset en mT
 
 print("\nParámetros del ajuste B_fit(t) = A·sin(B·t + C) + D:")
 print(f"  A = {A_fit:.6f} mT")
