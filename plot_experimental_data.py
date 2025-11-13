@@ -55,10 +55,11 @@ print("✓ Gráfica guardada como 'graficas_experimentales.png'")
 
 # Mostrar estadísticas de los datos
 print("\n" + "="*60)
-print("ESTADÍSTICAS DE LOS DATOS EXPERIMENTALES")
+print("ESTADÍSTICAS DE LOS DATOS EXPERIMENTALES (3.0 - 4.0 s)")
 print("="*60)
 print(f"\nTiempo de medición:")
-print(f"  - Duración total: {t_exp[-1]:.3f} s")
+print(f"  - Rango: [{t_exp[0]:.1f}, {t_exp[-1]:.1f}] s")
+print(f"  - Duración: {t_exp[-1] - t_exp[0]:.3f} s")
 print(f"  - Número de puntos: {len(t_exp)}")
 print(f"  - Intervalo de muestreo: {t_exp[1] - t_exp[0]:.4f} s")
 
