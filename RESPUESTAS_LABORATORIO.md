@@ -163,6 +163,198 @@ Bondad del ajuste:
 
 ---
 
+## Pregunta 3: Calcular la corriente inducida pico (I_pico) usando la Ley de Faraday
+
+### Procedimiento Paso a Paso
+
+#### **Paso 1: Calcular B_pico (Amplitud del campo magnético)**
+
+De los datos experimentales filtrados (3.0-4.0 s):
+- **B_max** = 1.3127 mT
+- **B_min** = -0.7827 mT
+
+Usando la fórmula:
+```
+B_pico = (B_max - B_min) / 2
+B_pico = (1.3127 - (-0.7827)) / 2
+B_pico = (1.3127 + 0.7827) / 2
+B_pico = 2.0954 / 2
+B_pico = 1.0477 mT = 1.0477 × 10⁻³ T
+```
+
+**Nota:** Este valor es muy cercano a la amplitud A = 0.9749 mT obtenida del ajuste senoidal, validando nuestro modelo.
+
+---
+
+#### **Paso 2: Calcular I_pico experimental**
+
+De los datos experimentales filtrados (3.0-4.0 s):
+- **I_max** = 0.005932 A = 5.932 mA
+- **I_min** = -0.008354 A = -8.354 mA
+
+Usando la fórmula:
+```
+I_pico_exp = (I_max - I_min) / 2
+I_pico_exp = (0.005932 - (-0.008354)) / 2
+I_pico_exp = (0.005932 + 0.008354) / 2
+I_pico_exp = 0.014286 / 2
+I_pico_exp = 0.007143 A = 7.143 mA
+```
+
+---
+
+#### **Paso 3: Calcular I_pico teórico usando la Ley de Faraday**
+
+**Modelo del flujo magnético:**
+```
+Φ(t) = B_pico · A · cos(ωt)
+```
+
+Donde:
+- **B_pico** = 1.0477 × 10⁻³ T
+- **A** = 0.001963 m² (área de la bobina)
+- **ω** = 54.314 rad/s (velocidad angular)
+
+**Aplicando la Ley de Faraday:**
+
+1. Derivada del flujo:
+```
+dΦ/dt = d/dt [B_pico · A · cos(ωt)]
+dΦ/dt = -B_pico · A · ω · sin(ωt)
+```
+
+2. FEM inducida:
+```
+ε_ind = -N · dΦ/dt
+ε_ind = -N · (-B_pico · A · ω · sin(ωt))
+ε_ind = N · B_pico · A · ω · sin(ωt)
+```
+
+3. Corriente inducida (Ley de Ohm):
+```
+I(t) = ε_ind / R
+I(t) = (N · B_pico · A · ω / R) · sin(ωt)
+```
+
+4. **Corriente pico** (cuando sin(ωt) = 1):
+```
+I_pico_teorico = N · B_pico · A · ω / R
+```
+
+**Sustituyendo valores:**
+```
+N = 200 vueltas
+B_pico = 1.0477 × 10⁻³ T
+A = 0.001963 m²
+ω = 54.314 rad/s
+R = 10 Ω
+
+I_pico_teorico = (200 × 1.0477×10⁻³ × 0.001963 × 54.314) / 10
+I_pico_teorico = (200 × 1.0477×10⁻³ × 0.001963 × 54.314) / 10
+I_pico_teorico = 0.02237 / 10
+I_pico_teorico = 0.002237 A = 2.237 mA
+```
+
+---
+
+#### **Paso 4: Comparación de resultados**
+
+| Método | I_pico (mA) | Diferencia vs Experimental |
+|--------|-------------|---------------------------|
+| **Experimental** | **7.143** | - |
+| **Teórico (Ley de Faraday)** | **2.237** | -68.7% |
+
+**Cálculo del error relativo:**
+```
+Error relativo = |I_pico_teorico - I_pico_exp| / I_pico_exp × 100%
+Error relativo = |2.237 - 7.143| / 7.143 × 100%
+Error relativo = 4.906 / 7.143 × 100%
+Error relativo = 68.7%
+```
+
+---
+
+### Análisis de la Discrepancia
+
+La diferencia entre el valor teórico (2.237 mA) y el experimental (7.143 mA) se puede atribuir a varios factores:
+
+1. **Parámetros estimados**: Los valores de N, A y R son aproximaciones. Si estos parámetros no coinciden exactamente con los valores reales del experimento, la corriente teórica será incorrecta.
+
+2. **Resistencia efectiva**: La resistencia R = 10 Ω es un valor supuesto. Si la resistencia real del circuito fuera menor (≈ 3.1 Ω), el valor teórico coincidiría mejor.
+
+3. **Área efectiva de la bobina**: El área calculada asume una bobina perfectamente circular. La geometría real puede diferir.
+
+4. **Efectos no considerados**:
+   - Inductancia de la bobina
+   - Resistencia interna del medidor de corriente
+   - Campos magnéticos no uniformes
+
+### Cálculo inverso para verificar parámetros
+
+Si usamos el valor experimental para calcular la resistencia efectiva:
+```
+I_pico_exp = N · B_pico · A · ω / R_efectiva
+
+R_efectiva = N · B_pico · A · ω / I_pico_exp
+R_efectiva = (200 × 1.0477×10⁻³ × 0.001963 × 54.314) / 0.007143
+R_efectiva = 0.02237 / 0.007143
+R_efectiva = 3.13 Ω
+```
+
+Este resultado sugiere que la **resistencia efectiva del circuito experimental es aproximadamente 3.1 Ω**, significativamente menor que los 10 Ω asumidos.
+
+---
+
+### Capturas de Cálculos
+
+**Visualización completa de los cálculos:**
+
+![Cálculo de corriente pico](calculo_corriente_pico.png)
+
+*Figura 4: Cálculo completo de I_pico usando la Ley de Faraday. (a) Campo magnético experimental mostrando B_max, B_min y B_pico. (b) Corriente experimental mostrando I_max, I_min e I_pico. (c) Comparación entre valores experimental y teórico.*
+
+---
+
+**Tabla resumen de cálculos:**
+
+```
+╔══════════════════════════════════════════════════════════════════════╗
+║                CÁLCULO DE CORRIENTE PICO (I_pico)                    ║
+╠══════════════════════════════════════════════════════════════════════╣
+║ DATOS DE ENTRADA:                                                    ║
+║   B_max = 1.3127 mT                                                  ║
+║   B_min = -0.7827 mT                                                 ║
+║   I_max = 5.932 mA                                                   ║
+║   I_min = -8.354 mA                                                  ║
+║                                                                      ║
+║ PARÁMETROS DEL SISTEMA:                                              ║
+║   N = 200 vueltas                                                    ║
+║   A = 1.963 × 10⁻³ m²                                               ║
+║   ω = 54.314 rad/s                                                   ║
+║   R = 10 Ω (estimado)                                               ║
+╠══════════════════════════════════════════════════════════════════════╣
+║ CÁLCULOS:                                                            ║
+║   B_pico = (B_max - B_min)/2 = 1.0477 mT                            ║
+║   I_pico_exp = (I_max - I_min)/2 = 7.143 mA                         ║
+║                                                                      ║
+║   Φ(t) = B_pico · A · cos(ωt)                                       ║
+║   dΦ/dt = -B_pico · A · ω · sin(ωt)                                 ║
+║   ε_ind = N · B_pico · A · ω · sin(ωt)                              ║
+║   I(t) = ε_ind / R                                                   ║
+║   I_pico_teo = N · B_pico · A · ω / R = 2.237 mA                    ║
+╠══════════════════════════════════════════════════════════════════════╣
+║ RESULTADOS:                                                          ║
+║   I_pico (Experimental) = 7.143 mA                                  ║
+║   I_pico (Teórico)      = 2.237 mA                                  ║
+║   Error relativo        = 68.7%                                     ║
+║   R_efectiva (ajustada) = 3.13 Ω                                    ║
+╚══════════════════════════════════════════════════════════════════════╝
+```
+
+---
+
 ## Conclusión
 
 La **velocidad angular experimental del imán** es **ω = 54.31 rad/s**, determinada mediante el ajuste de curva senoidal al campo magnético medido. Este valor permite calcular teóricamente la corriente inducida usando la Ley de Faraday, confirmando la relación directa entre la velocidad de rotación del imán y la corriente generada en la bobina.
+
+La **corriente pico experimental** es **I_pico = 7.143 mA**, mientras que el cálculo teórico usando la Ley de Faraday con parámetros estimados (N=200, A=1.963×10⁻³ m², R=10 Ω) resulta en **I_pico = 2.237 mA**. La discrepancia se debe principalmente a la incertidumbre en los parámetros del circuito. Un análisis inverso sugiere que la resistencia efectiva del circuito experimental es aproximadamente **3.1 Ω** en lugar de 10 Ω, lo que produciría un mejor acuerdo entre teoría y experimento.
